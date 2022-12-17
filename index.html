@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Go Item Space Calculator</title>
+
+    <style>
+        * {
+            font-family: monospace;
+        }
+
+        body {
+            margin: auto;
+            padding: 2rem;
+            max-width: 60rem;
+            font-size: 1.5rem;
+            line-height: 1.5;
+            color: hsl(210, 10%, 10%);
+
+            text-align: center;
+        }
+
+        input {
+            border: 1px solid hsl(210, 10%, 80%);
+            padding: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        table th,
+        table td {
+            padding: 0.5rem;
+            text-align: left;
+            font-variant-numeric: tabular-nums;
+            background-color: hsl(210, 10%, 95%);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pokemon Go Item Space Calculator</h1>
+
+    <label for="space">Your max item space:</label>
+    <input autofocus type="number" id="space" min="300" max="6000" step="25" value="1000">
+
+    <p>Recommended budget:</p>
+    <div id="budget"></div>
+
+    <script>
+        function showBudget(maxSpace) {
+            if (isNaN(maxSpace)) return;
+
+            const budget = {
+                'Evolution items': 1,
+                'Incense': 1,
+                'Poffins': 1,
+                'Razz & nanbs': 1,
+                'Lures': 2,
+                'Lucky eggs & starpieces': 3,
+                'TMs': 3,
+                'Healing': 3,
+                'Rare candy': 5,
+                'Golden razz': 5,
+                'Silver pinap': 5,
+                'Pinap': 10,
+                'Balls': 50,
+                'Free space': 10
+            }
+
+            let html = '<table>';
+            html += '<tr><th>Name</th><th>Amount</th><th>Percentage</th></tr>';
+
+            for (let key in budget) {
+                html += `<tr>
+                    <td>${key}</td>
+                    <td>${Math.round(budget[key] / 100 * maxSpace)}</td>
+                    <td>${budget[key]}%</td>
+                    </tr>`;
+            }
+
+            html += '</table>';
+            document.getElementById('budget').innerHTML = html;
+        }
+
+        window.onload = () =>
+            document.getElementById('space').onchange = () => showBudget(document.getElementById('space').value);
+
+        showBudget(document.getElementById('space').value);
+    </script>
+</body>
+
+</html>
